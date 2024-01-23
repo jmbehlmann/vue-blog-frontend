@@ -1,5 +1,7 @@
 <script>
   import axios from "axios";
+
+
   export default {
     data: function () {
       return {
@@ -12,16 +14,23 @@
     created: function () {
       this.indexPosts();
     },
+
     methods: {
+
       indexPosts: function () {
         axios.get("/posts.json").then((response) => {
           console.log("posts index", response);
           this.posts = response.data;
         });
       },
+
       createPost: function () {
+        const headers = {
+          'Content-Type': 'multipart/form-data',
+        };
+
         axios
-          .post("/posts.json", this.newPostParams)
+          .post("/posts.json", this.newPostParams, {headers})
           .then((response) => {
             console.log("posts create", response);
             this.posts.push(response.data);
@@ -31,14 +40,21 @@
             console.log("post create error", error.response);
           });
       },
+
       showPost: function (post) {
         this.currentPost = post;
         this.editPostParams = post;
         document.querySelector("#post-details").showModal();
       },
+
       updatePost: function (post) {
+        const headers = {
+          'Content-Type': 'multipart/form-data',
+        };
+
+
         axios
-          .patch("/posts/" + post.id + ".json", this.editPostParams)
+          .patch("/posts/" + post.id + ".json", this.editPostParams, {headers})
           .then((response) => {
             console.log("posts update", response);
             this.currentPost = {};
@@ -47,6 +63,8 @@
             console.log("posts update error", error.response);
           });
       },
+
+
       destroyPost: function (post) {
         axios.delete("/posts/" + post.id + ".json").then((response) => {
           console.log("posts destroy", response);
