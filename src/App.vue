@@ -38,7 +38,7 @@
       },
       updatePost: function (post) {
         axios
-          .patch("/posts/"   post.id  ".json", this.editPostParams)
+          .patch("/posts/" + post.id + ".json", this.editPostParams)
           .then((response) => {
             console.log("posts update", response);
             this.currentPost = {};
@@ -48,7 +48,7 @@
           });
       },
       destroyPost: function (post) {
-        axios.delete("/posts/"   post.id  ".json").then((response) => {
+        axios.delete("/posts/" + post.id + ".json").then((response) => {
           console.log("posts destroy", response);
           var index = this.posts.indexOf(post);
           this.posts.splice(index, 1);
